@@ -5,9 +5,9 @@
       "cpu": 4,
       "frames": {
         "missing": 0,
-        "samples": 651,
-        "medianFps": 29.585798819176702,
-        "p95Ms": 91.5
+        "samples": 781,
+        "medianFps": 31.152647980862437,
+        "p95Ms": 78.29999999701977
       },
       "contexts": 4,
       "lost": 0,
@@ -19,9 +19,9 @@
       "cpu": 4,
       "frames": {
         "missing": 0,
-        "samples": 598,
-        "medianFps": 28.089887633394856,
-        "p95Ms": 93.79999999701977
+        "samples": 816,
+        "medianFps": 28.985507246376812,
+        "p95Ms": 73.09999999403954
       },
       "contexts": 4,
       "lost": 0,
@@ -33,9 +33,9 @@
       "cpu": 4,
       "frames": {
         "missing": 0,
-        "samples": 795,
-        "medianFps": 30.76923076923077,
-        "p95Ms": 79.40000000596046
+        "samples": 836,
+        "medianFps": 37.03703703703704,
+        "p95Ms": 61.400000005960464
       },
       "contexts": 4,
       "lost": 0,
@@ -53,49 +53,49 @@
       "condition": "normal",
       "width": 1280,
       "opened": {
-        "time": 9306,
-        "percent": "89%",
+        "time": 6633.600000008941,
+        "percent": "91%",
         "open": true,
         "ready": "true"
       },
       "fps": {
-        "renderedFps": 19.62272966185832,
-        "duration": 8561.5
+        "renderedFps": 34.54941800686997,
+        "duration": 4862.70000000298
       }
     },
     {
       "condition": "warm",
       "width": 1280,
       "opened": {
-        "time": 1986.6000000089407,
-        "percent": "89%",
+        "time": 1437.7000000029802,
+        "percent": "91%",
         "open": true,
         "ready": "true"
       },
       "fps": {
-        "renderedFps": 72.44814351613617,
-        "duration": 2318.9000000059605
+        "renderedFps": 144.82758620689654,
+        "duration": 1160.0999999940395
       }
     },
     {
       "condition": "mobile",
       "width": 390,
       "opened": {
-        "time": 5794.100000008941,
+        "time": 3728.3999999910593,
         "percent": "95%",
         "open": true,
         "ready": "true"
       },
       "fps": {
-        "renderedFps": 35.048191263051976,
-        "duration": 4793.399999991059
+        "renderedFps": 178.40943453120138,
+        "duration": 992.1000000089407
       }
     },
     {
       "condition": "fast3g",
       "width": 1280,
       "opened": {
-        "time": 12012.09999999404,
+        "time": 12077.300000011921,
         "percent": "32%",
         "open": true
       }
@@ -104,7 +104,7 @@
       "condition": "failed",
       "width": 1280,
       "opened": {
-        "time": 770.9000000059605,
+        "time": 751.5,
         "percent": "11%",
         "open": true
       }
@@ -113,7 +113,7 @@
       "condition": "invalid",
       "width": 1280,
       "opened": {
-        "time": 864.0999999940395,
+        "time": 860.2999999970198,
         "percent": "89%",
         "open": true
       }
@@ -127,19 +127,19 @@
         "best-practices": 0.96,
         "seo": 0.91
       },
-      "lcpMs": 288.416,
-      "tbtMs": 58.491999999999905,
+      "lcpMs": 363.152,
+      "tbtMs": 27.19900000000007,
       "cls": 0
     },
     "after": {
       "scores": {
-        "performance": 0.6,
+        "performance": 0.61,
         "accessibility": 0.96,
         "best-practices": 1,
         "seo": 0.91
       },
-      "lcpMs": 371.251,
-      "tbtMs": 7300.615000000002,
+      "lcpMs": 280.055,
+      "tbtMs": 5731.969,
       "cls": 0.00273307958644809
     }
   }
