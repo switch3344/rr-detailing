@@ -1,7 +1,9 @@
 import legacy from './car-config.json'
 import {sceneConfig} from './scene.config'
 const carConfig={...legacy,site:sceneConfig.site,lighting:sceneConfig.lighting,floor:sceneConfig.floor,performance:sceneConfig.performance,
- pose:{...legacy.pose,steerAngle:0},
+ pose:{...legacy.pose,steerAngle:0,carYaw:0},
+ presentation:{eye:[-5.5,3.45,7.8],target:[0,.83,0],span:3.96,minWidth:5.35},
+ camera:{...legacy.camera,widthFraction:.66,centerX:.65,mobileWidthFraction:.94},
  materials:{...legacy.materials,
   paint:{...legacy.materials.paint,color:'#8695a4',metalness:.65,roughness:.36,clearcoat:1,clearcoatRoughness:.035,envMapIntensity:.9,normalScale:0},
   rim:{...legacy.materials.rim,color:'#343c46',metalness:.8,roughness:.34,envMapIntensity:.85,anisotropy:.25},

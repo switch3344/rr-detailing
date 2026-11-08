@@ -36,7 +36,7 @@ export function preloadStage(kind:StageKind,compact:boolean){
 }
 const aim: Record<StageKind, { eye: XYZ; target: XYZ; span: number; minWidth: number }> = {
   hero: { eye: [-5.5, 2.02, 8.5], target: [0, 0.55, 0], span: 2.63, minWidth: 4.72 },
-  body: { eye: [-5.5, 3.45, 7.8], target: [0, 0.83, 0], span: 3.96, minWidth: 5.35 },
+  body: carConfig.presentation as {eye:XYZ;target:XYZ;span:number;minWidth:number},
   engine: { eye: [-6.6, 5.2, 5.2], target: [0, 0.56, 0], span: 2.5, minWidth: 3.7 },
   brake: { eye: [2.6, 2.6, 8.2], target: [0, 0.94, 0], span: 2.95, minWidth: 3.3 },
 }
@@ -45,12 +45,12 @@ function Camera({ kind, ready }: { kind: StageKind; ready: boolean }) {
   const { camera, size, invalidate, gl, scene } = useThree()
   useLayoutEffect(() => {
     if (kind === 'hero' || kind === 'body') camera.layers.enable(1)
-    if (kind === 'hero' && camera instanceof T.PerspectiveCamera) {
+    if (kind === 'hero' && (camera instanceof T.PerspectiveCamera || camera instanceof T.OrthographicCamera)) {
       const cfg = carConfig.camera
       const mobile = window.innerWidth <= 760
       const rect = gl.domElement.getBoundingClientRect()
-      const target = new T.Vector3(...cfg.target as XYZ)
-      const outward = new T.Vector3(...cfg.eye as XYZ).sub(target).normalize()
+      const target = new T.Vector3(...carConfig.presentation.target as XYZ)
+      const outward = new T.Vector3(...carConfig.presentation.eye as XYZ).sub(target).normalize()
       const right = new T.Vector3().crossVectors(camera.up, outward).normalize()
       const up = new T.Vector3().crossVectors(outward, right)
       const tanY = Math.tan(T.MathUtils.degToRad(cfg.fov / 2))
@@ -72,6 +72,24 @@ function Camera({ kind, ready }: { kind: StageKind; ready: boolean }) {
       }
       if (!points.length) for (const x of [-cfg.length/2,cfg.length/2]) for (const y of [0,cfg.height])
         for (const z of [-cfg.width/2,cfg.width/2]) points.push(new T.Vector3(x,y,z))
+      if(camera instanceof T.OrthographicCamera){
+        let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity
+        for(const p of [0,1])for(const vertex of points){
+          const point=vertex.clone().applyAxisAngle(new T.Vector3(0,1,0),T.MathUtils.degToRad(carConfig.pose.carYaw+carConfig.pose.scrollYaw*p))
+          point.x+=T.MathUtils.lerp(carConfig.pose.startX,carConfig.pose.endX,p);point.sub(target)
+          const x=point.dot(right),y=point.dot(up);minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y)
+        }
+        const hero=gl.domElement.closest('.hero')?.getBoundingClientRect()
+        const headline=gl.domElement.closest('.hero')?.querySelector('h1')?.getBoundingClientRect()
+        const top=hero?Math.max((headline?.bottom??hero.top)+24,hero.top+hero.height*(mobile?.36:.4)):rect.top
+        const bottom=hero?hero.bottom-40:rect.bottom
+        const centerY=(top+bottom)/2-rect.top
+        const centerX=window.innerWidth*(mobile?cfg.mobileCenterX:cfg.centerX)-rect.left
+        camera.zoom=Math.min(frameWidth/(maxX-minX),(bottom-top)/(maxY-minY))/(mobile?cfg.mobilePadding:cfg.padding)
+        camera.position.copy(target).addScaledVector(outward,12);camera.lookAt(target)
+        camera.setViewOffset(size.width,size.height,size.width/2-centerX+(minX+maxX)*camera.zoom/2,size.height/2-centerY-(minY+maxY)*camera.zoom/2,size.width,size.height)
+        camera.updateProjectionMatrix();sceneStats(kind).minNear=12-cfg.length-camera.near;invalidate();return
+      }
       for (const p of [0, 1]) for (const vertex of points) {
           const point = vertex.clone().applyAxisAngle(new T.Vector3(0,1,0),
             T.MathUtils.degToRad(carConfig.pose.carYaw + carConfig.pose.scrollYaw * p))
@@ -345,7 +363,7 @@ export default function SceneCanvas(props: SceneCanvasProps) {
     props.onReady(false)
     props.onUnavailable(true)
   }}>
-    <Canvas orthographic={props.kind !== 'hero'} dpr={[1, props.compact ? carConfig.performance.mobileDpr : carConfig.performance.desktopDpr]} frameloop={visible && tabVisible ? 'demand' : 'never'}
+    <Canvas orthographic dpr={[1, props.compact ? carConfig.performance.mobileDpr : carConfig.performance.desktopDpr]} frameloop={visible && tabVisible ? 'demand' : 'never'}
       fallback={null} gl={{ alpha: true, antialias: true, powerPreference: 'low-power' }}
       camera={props.kind === 'hero' ? { near: carConfig.camera.near, far: carConfig.camera.far, fov: carConfig.camera.fov }
         : { near: 0.1, far: 40, zoom: 100 }}
