@@ -8,7 +8,7 @@ import type { Part, SceneKind, XYZ } from '../content'
 import { ExplodableModel, ModelAsset, modelPath, RenderBoundary, useModelSpring } from './ExplodableModel'
 import type { Trigger } from './ExplodableModel'
 import { makeCar, makeEngine, makeBrake } from './models'
-import carConfig from './car-config.json'
+import carConfig from './car.config'
 import { auditEvent, renderAudit, sceneStats } from './diagnostics'
 
 export type StageKind = SceneKind | 'hero'
@@ -175,7 +175,7 @@ export function StudioFloor() {
     <planeGeometry args={[10.2, 5.8]} />
     <MeshReflectorMaterial resolution={carConfig.floor.reflectionResolution} blur={carConfig.floor.reflectionBlur as [number,number]}
       mirror={0.74} mixBlur={1.35} mixStrength={carConfig.floor.reflectionStrength}
-      color="#455160" roughness={0.77} alphaMap={fade} transparent opacity={carConfig.floor.reflectionOpacity} depthWrite={false} />
+      color={carConfig.floor.color} roughness={carConfig.floor.roughness} alphaMap={fade} transparent opacity={carConfig.floor.reflectionOpacity} depthWrite={false} />
   </mesh>
 }
 
@@ -282,7 +282,7 @@ function StageContents({ kind, step = 0, reduced, compact, trigger = 'hover', on
           <circleGeometry args={[1, 40]} /><meshBasicMaterial color="#090b0d" transparent opacity={0.27} depthWrite={false} />
         </mesh>
       : ready && <ContactShadows position={[0, carConfig.floor.height, 0]} opacity={kind === 'hero' ? carConfig.floor.shadowOpacity : 0.40} scale={8.2}
-          blur={kind === 'hero' ? carConfig.floor.shadowBlur : 3.5} far={3.2} frames={kind === 'hero' ? Infinity : 1}
+          blur={kind === 'hero' ? carConfig.floor.shadowBlur : 3.5} far={3.2} frames={1}
           resolution={carConfig.floor.shadowResolution} color="#090b0d" />}
   </>
 }
