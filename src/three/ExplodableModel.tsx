@@ -11,6 +11,8 @@ import { styleRoxy } from './roxyStyle'
 import { styleGT3RS } from './gt3rsStyle'
 import { auditEvent } from './diagnostics'
 import { rememberRest, restoreRest, restError } from './restPose'
+import carManifest from './car.manifest.json'
+import {heroLoadFailed} from '../boot'
 
 export type Trigger = 'hover' | 'tap' | 'scroll'
 export type ModelSource = { src?: string; fallback: () => T.Group }
@@ -59,9 +61,10 @@ function FileModel({ src, children }: { src: string; children: (model: T.Group) 
       }
       object.material=Array.isArray(object.material)?object.material.map(copy):copy(object.material)
     })
-    if (/\/(porsche-)?gt3rs-/.test(src)) {
+    const manifestCar=Object.values(carManifest.models).some(file=>src===modelPath(file))
+    if (manifestCar||/\/(porsche-)?gt3rs-/.test(src)) {
       styleGT3RS(clone,gl)
-      if(src.includes('/porsche-')&&!(import.meta.env.DEV&&new URLSearchParams(location.search).get('experiment')==='rest'))poseWheels(clone)
+      if(manifestCar&&!(import.meta.env.DEV&&new URLSearchParams(location.search).get('experiment')==='rest'))poseWheels(clone)
     } else if (src.includes('/porsche-roxy-')) {
       styleRoxy(clone,gl);poseWheels(clone)
     } else if (/\/porsche-(studio|roof|wheels)-/.test(src)) {
@@ -83,7 +86,7 @@ function FileModel({ src, children }: { src: string; children: (model: T.Group) 
 export function ModelAsset({ src, fallback, children }: ModelSource & { children: (model: T.Group) => ReactNode }) {
   const procedural = <ProceduralModel fallback={fallback}>{children}</ProceduralModel>
   if (!src) return procedural
-  return <RenderBoundary key={src} fallback={procedural} onError={error => {auditEvent('asset-error',src);console.warn('RR Studio: GLB fallback', src, error.message)}}>
+  return <RenderBoundary key={src} fallback={procedural} onError={error => {auditEvent('asset-error',src);if(Object.values(carManifest.models).some(file=>src===modelPath(file)))heroLoadFailed();console.warn('RR Studio: GLB fallback', src, error.message)}}>
     <Suspense fallback={null}><FileModel src={src}>{children}</FileModel></Suspense>
   </RenderBoundary>
 }

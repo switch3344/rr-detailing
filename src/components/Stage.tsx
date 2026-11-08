@@ -13,15 +13,21 @@ const SceneCanvas = lazy(loadScene)
 
 export function useNearbyStages(released=true) {
   const [nearby, setNearby] = useState<StageKind[]>([])
+  const primed=useRef(new Set<StageKind>())
   useEffect(() => {
     const stages = Array.from(document.querySelectorAll<HTMLElement>('[data-stage]'))
     let frame = 0
     function update() {
       frame = 0
       const height = window.innerHeight
-      const lead = height*sceneConfig.proximity.screens
+      const lead = Math.min(200,height*.2)
       const next = stages.flatMap(stage => {
         const { top, bottom } = stage.getBoundingClientRect()
+        const kind=stage.dataset.stage as StageKind
+        if(released&&kind!=='hero'&&top<height*(1+sceneConfig.proximity.screens)&&!primed.current.has(kind)){
+          primed.current.add(kind)
+          loadScene().then(module=>module.preloadStage(kind,matchMedia('(max-width:760px), (hover:none), (pointer:coarse)').matches))
+        }
         return (released||stage.dataset.stage==='hero')&&top < height + lead && bottom > -lead * 0.65 ? [stage.dataset.stage as StageKind] : []
       })
       setNearby(previous => previous.length === next.length && previous.every((stage, i) => stage === next[i])
@@ -55,6 +61,7 @@ export function HeroVisual({ nearby, reduced, compact, progress }:
   const [ready, setReady] = useState(false)
   const [unavailable, setUnavailable] = useState(false)
   const boot=useBoot()
+  useEffect(()=>{const failed=()=>setUnavailable(true);window.addEventListener('rr:hero-load-failed',failed);return()=>window.removeEventListener('rr:hero-load-failed',failed)},[])
   const visited = useVisited(nearby.includes('hero'))
   return <div className="hero-visual" data-stage="hero" role="img" aria-label={content.hero.carAlt}>
     {(unavailable||!ready&&boot.released) && <ModelDiagram kind="hero" expanded={false} />}

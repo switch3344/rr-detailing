@@ -4,3 +4,4 @@ artifacts/
 public/decoders/
 *.local
 .env*
+/.qa-*/

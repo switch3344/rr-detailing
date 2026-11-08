@@ -1,6 +1,6 @@
 import legacy from './car-config.json'
 export const sceneConfig={
- site:{...legacy.site,css:{...legacy.site.css,'--ink':'#07090d','--tone':'#0e1218','--surface':'#141a22','--text':'#e7ebf2','--muted':'#a0aab8','--studio-halo':'#1e334f','--studio-floor':'#10151c','--noise-opacity':'.025'}},
+ site:{...legacy.site,css:{...legacy.site.css,'--ink':'#07090d','--tone':'#0e1218','--surface':'#141a22','--text':'#e7ebf2','--muted':'#a0aab8','--studio-halo':'#1e334f','--studio-floor':'#10151c','--noise-opacity':'.025','--hero-halo':'#20395666','--body-surface':'#0b0f15','--body-halo':'#233c571f','--engine-halo':'#33465a24','--tuning-surface':'#0a0d12','--tuning-halo':'#45403a20','--vignette':'#07090d80'}},
  lighting:{...legacy.lighting,ambient:.16,key:.8,rim:1.6,exposure:1.12,background:'#030508',environmentIntensity:1.05,
   strips:[
    {position:[-1.3,5,2],scale:[6,1.1,1],intensity:5,color:'#f0f3f8'},

@@ -1,3 +1,4 @@
+import carManifest from './three/car.manifest.json'
 export type XYZ = [number, number, number]
 export type Part = {
   nodeName: string
@@ -13,13 +14,13 @@ const part = (nodeName: string, explodeVector: XYZ, delay: number, label?: strin
   ({ nodeName, explodeVector, delay, label, description, labelOffset })
 
 export const bodyParts = [
-  part('body_shell',[0,.72,0],.02,'Полировка','Работа с наружной оболочкой кузова.',[-.7,.35,.65]),
-  part('glass',[.15,.65,-.3],.08,'Тонировка','Подбор оттенка под автомобиль и задачу.',[.2,.3,-.6]),
-  part('rear_spoiler',[.5,.65,0],.12),
-  part('door_FL',[0,.12,.7],.08),part('door_FR',[0,.12,-.7],.08),
-  part('headlights',[-.6,.2,0],.15,'Защита фар','Плёнка для передней оптики.',[-.35,.15,.5]),
-  part('wheel_front_L',[-.1,.08,.65],.1),part('wheel_front_R',[-.1,.08,-.65],.1),
-  part('wheel_rear_L',[.1,.08,.65],.15),part('wheel_rear_R',[.1,.08,-.65],.15),
+  part(carManifest.roles.body[0],[0,.72,0],.02,'Полировка','Работа с наружной оболочкой кузова.',[-.7,.35,.65]),
+  part(carManifest.roles.glass[0],[.15,.65,-.3],.08,'Тонировка','Подбор оттенка под автомобиль и задачу.',[.2,.3,-.6]),
+  part(carManifest.roles.wing[0],[.5,.65,0],.12),
+  part(carManifest.roles.doors[0],[0,.12,.7],.08),part(carManifest.roles.doors[1],[0,.12,-.7],.08),
+  part(carManifest.roles.lights[0],[-.6,.2,0],.15,'Защита фар','Плёнка для передней оптики.',[-.35,.15,.5]),
+  part(carManifest.roles.wheels[0],[-.1,.08,.65],.1),part(carManifest.roles.wheels[1],[-.1,.08,-.65],.1),
+  part(carManifest.roles.wheels[2],[.1,.08,.65],.15),part(carManifest.roles.wheels[3],[.1,.08,-.65],.15),
 ]
 
 export const engineParts = [
@@ -75,8 +76,8 @@ export const content = {
     text: 'Полировка, защитная плёнка и тонировка. Один мастер от осмотра до выдачи.',
     secondary: 'Смотреть услуги',
     carAlt: 'Porsche 992 GT3 RS из модели пользователя',
-    model: 'porsche-gt3rs-mobile.glb',
-    detailModel: 'porsche-gt3rs-desktop.glb',
+    model: carManifest.models.mobile,
+    detailModel: carManifest.models.desktop,
     modelCaption: 'Porsche 992 GT3 RS',
   },
   tuning: {
@@ -101,7 +102,7 @@ export const content = {
           { id:'service-tint',title: 'Тонировка', text: 'Доступность для вашего класса авто уточняйте при записи.' },
         ],
         hint: 'Наведите на кузов, чтобы увидеть панели',
-        model: 'porsche-gt3rs-mobile.glb',
+        model: carManifest.models.mobile,
       },
       {
         id: 'engine', title: 'Двигатель',

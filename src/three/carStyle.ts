@@ -1,3 +1,4 @@
+import carManifest from './car.manifest.json'
 import * as T from 'three'
 import config from './car.config'
 
@@ -99,7 +100,7 @@ export function styleCar(scene: T.Group, gl: T.WebGLRenderer, lowCost = false) {
 }
 
 export function poseWheels(scene: T.Group) {
-  for (const name of ['Steering_front_L', 'Steering_front_R']) {
+  for (const name of carManifest.roles.steering) {
     const joint = scene.getObjectByName(name)
     if (joint) joint.rotation.y = T.MathUtils.degToRad(config.pose.steerAngle)
   }

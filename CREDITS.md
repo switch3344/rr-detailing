@@ -7,3 +7,10 @@
 - Unbounded: Copyright 2022 The Unbounded Project Authors. https://github.com/googlefonts/unbounded. SIL Open Font License 1.1.
 - Onest: Copyright 2021 The Onest Project Authors. https://github.com/simpals/onest. SIL Open Font License 1.1.
 - Шрифты размещены локально; лицензии находятся рядом с WOFF2 в public/fonts.
+
+## Ревизия студийного света и загрузки
+
+- Краска/материалы, циклический рисунок twill normal для карбона и альфа-коррекция швов салона: созданы локально; дополнительные текстуры и HDRI не скачивались.
+- Окружение генерируется Lightformer в текущем Canvas. WebGL-контекстов по-прежнему четыре, вне экрана рендер останавливается.
+- Перенос weighted normals из Blender не меняет авторство GT3 RS и не добавляет отсутствующую лицензию исходного архива.
+- Технические инструменты QA (Playwright Core, glTF Transform, Draco, Lighthouse) не загружаются клиентом сайта. Их upstream-лицензии хранятся в npm-пакетах; production-зависимости и шрифты остаются прежними.

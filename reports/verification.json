@@ -1,0 +1,146 @@
+{
+  "scroll": [
+    {
+      "width": 1280,
+      "cpu": 4,
+      "frames": {
+        "missing": 0,
+        "samples": 651,
+        "medianFps": 29.585798819176702,
+        "p95Ms": 91.5
+      },
+      "contexts": 4,
+      "lost": 0,
+      "downloadsBefore": 6,
+      "downloadsAfter": 6
+    },
+    {
+      "width": 1920,
+      "cpu": 4,
+      "frames": {
+        "missing": 0,
+        "samples": 598,
+        "medianFps": 28.089887633394856,
+        "p95Ms": 93.79999999701977
+      },
+      "contexts": 4,
+      "lost": 0,
+      "downloadsBefore": 6,
+      "downloadsAfter": 6
+    },
+    {
+      "width": 390,
+      "cpu": 4,
+      "frames": {
+        "missing": 0,
+        "samples": 795,
+        "medianFps": 30.76923076923077,
+        "p95Ms": 79.40000000596046
+      },
+      "contexts": 4,
+      "lost": 0,
+      "downloadsBefore": 6,
+      "downloadsAfter": 6
+    }
+  ],
+  "pose": {
+    "test": "20-explode-reassemble",
+    "identical": true,
+    "nodes": 215
+  },
+  "production": [
+    {
+      "condition": "normal",
+      "width": 1280,
+      "opened": {
+        "time": 9306,
+        "percent": "89%",
+        "open": true,
+        "ready": "true"
+      },
+      "fps": {
+        "renderedFps": 19.62272966185832,
+        "duration": 8561.5
+      }
+    },
+    {
+      "condition": "warm",
+      "width": 1280,
+      "opened": {
+        "time": 1986.6000000089407,
+        "percent": "89%",
+        "open": true,
+        "ready": "true"
+      },
+      "fps": {
+        "renderedFps": 72.44814351613617,
+        "duration": 2318.9000000059605
+      }
+    },
+    {
+      "condition": "mobile",
+      "width": 390,
+      "opened": {
+        "time": 5794.100000008941,
+        "percent": "95%",
+        "open": true,
+        "ready": "true"
+      },
+      "fps": {
+        "renderedFps": 35.048191263051976,
+        "duration": 4793.399999991059
+      }
+    },
+    {
+      "condition": "fast3g",
+      "width": 1280,
+      "opened": {
+        "time": 12012.09999999404,
+        "percent": "32%",
+        "open": true
+      }
+    },
+    {
+      "condition": "failed",
+      "width": 1280,
+      "opened": {
+        "time": 770.9000000059605,
+        "percent": "11%",
+        "open": true
+      }
+    },
+    {
+      "condition": "invalid",
+      "width": 1280,
+      "opened": {
+        "time": 864.0999999940395,
+        "percent": "89%",
+        "open": true
+      }
+    }
+  ],
+  "lighthouse": {
+    "before": {
+      "scores": {
+        "performance": 1,
+        "accessibility": 0.96,
+        "best-practices": 0.96,
+        "seo": 0.91
+      },
+      "lcpMs": 288.416,
+      "tbtMs": 58.491999999999905,
+      "cls": 0
+    },
+    "after": {
+      "scores": {
+        "performance": 0.6,
+        "accessibility": 0.96,
+        "best-practices": 1,
+        "seo": 0.91
+      },
+      "lcpMs": 371.251,
+      "tbtMs": 7300.615000000002,
+      "cls": 0.00273307958644809
+    }
+  }
+}

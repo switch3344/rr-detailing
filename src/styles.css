@@ -365,17 +365,17 @@ p, dd { color: var(--muted); }
 /* Studio atmosphere — typography and section order are retained. */
 html.rr-loading{overflow:hidden}
 .site-shell{background:var(--ink)}
-.hero{background:#07090d}
-.hero::before{background:radial-gradient(ellipse 54% 48% at 68% 59%,#20395666,transparent 78%);opacity:.7}
-.hero::after{background-image:var(--grain);opacity:.025;box-shadow:inset 0 0 120px 35px #07090d80}
+.hero{background:var(--ink)}
+.hero::before{background:radial-gradient(ellipse 54% 48% at 68% 59%,var(--hero-halo),transparent 78%);opacity:.7}
+.hero::after{background-image:var(--grain);opacity:.025;box-shadow:inset 0 0 120px 35px var(--vignette)}
 .studio-background i{opacity:.07}.studio-background i:nth-child(2){opacity:.05}.studio-background i:nth-child(3){opacity:.05}.studio-background span{display:none}
 .hero-line>span{animation-play-state:paused}
 .rr-revealed .hero-line>span{animation-play-state:running}
-.service-scene{position:relative;isolation:isolate;background:#0b0f15;border-top:1px solid #ffffff05}
-.service-scene::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse 55% 68% at 75% 47%,#233c571f,transparent 78%);opacity:.8}
-.service-scene-engine{background:#07090d}.service-scene-engine::before{background:radial-gradient(ellipse 45% 62% at 25% 50%,#33465a24,transparent 78%)}
-.tuning-showroom{background:#0a0d12}.tuning-showroom::before{background:radial-gradient(ellipse 52% 60% at 73% 40%,#45403a20,transparent 80%)}
-.preloader{position:fixed;z-index:1000;inset:0;background:#07090d;display:grid;place-items:center;clip-path:inset(0);transition:clip-path 800ms cubic-bezier(.76,0,.24,1);contain:layout paint}
+.service-scene{position:relative;isolation:isolate;background:var(--body-surface);border-top:1px solid #ffffff05}
+.service-scene::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse 55% 68% at 75% 47%,var(--body-halo),transparent 78%);opacity:.8}
+.service-scene-engine{background:var(--ink)}.service-scene-engine::before{background:radial-gradient(ellipse 45% 62% at 25% 50%,var(--engine-halo),transparent 78%)}
+.tuning-showroom{background:var(--tuning-surface)}.tuning-showroom::before{background:radial-gradient(ellipse 52% 60% at 73% 40%,var(--tuning-halo),transparent 80%)}
+.preloader{position:fixed;z-index:1000;inset:0;background:var(--ink);display:grid;place-items:center;clip-path:inset(0);transition:clip-path 800ms cubic-bezier(.76,0,.24,1);contain:layout paint}
 .preloader-exit{clip-path:inset(0 0 100%);pointer-events:none}
 .preloader-inner{width:min(360px,calc(100% - 64px))}.preloader-brand{display:flex;align-items:center;gap:14px;font-weight:600;letter-spacing:.02em}
 .preloader-brand svg{width:54px;height:44px}.preloader-brand path{stroke:currentColor;stroke-width:.35;stroke-dasharray:200;animation:rr-logo-line 1.6s ease-out both}

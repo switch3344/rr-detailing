@@ -1,3 +1,4 @@
+import carManifest from './car.manifest.json'
 import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { MutableRefObject, RefObject } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
@@ -29,6 +30,10 @@ export type SceneCanvasProps = {
 }
 
 const carSource = (compact: boolean) => modelPath(compact ? content.hero.model : content.hero.detailModel)
+export function preloadStage(kind:StageKind,compact:boolean){
+  const files=kind==='engine'?[compact?content.services.scenes[1].mobileModel:content.services.scenes[1].model]:kind==='brake'?content.tuning.items.map(item=>item.model):[]
+  for(const file of files)if(file)useGLTF.preload(modelPath(file),import.meta.env.BASE_URL+'decoders/draco/')
+}
 const aim: Record<StageKind, { eye: XYZ; target: XYZ; span: number; minWidth: number }> = {
   hero: { eye: [-5.5, 2.02, 8.5], target: [0, 0.55, 0], span: 2.63, minWidth: 4.72 },
   body: { eye: [-5.5, 3.45, 7.8], target: [0, 0.83, 0], span: 3.96, minWidth: 5.35 },
@@ -189,7 +194,7 @@ function Ready({ onReady }: { onReady: (ready: boolean) => void }) {
 function WheelContacts({ model }: { model: T.Group }) {
   const contacts = useMemo(() => {
     model.updateWorldMatrix(true,true)
-    return ['wheel_front_L','wheel_front_R','wheel_rear_L','wheel_rear_R'].flatMap(name => {
+    return carManifest.roles.wheels.flatMap(name => {
       const wheel = model.getObjectByName(name)
       if (!wheel) return []
       const center = model.worldToLocal(new T.Box3().setFromObject(wheel).getCenter(new T.Vector3()))
@@ -222,6 +227,7 @@ function HeroCar({ compact, progress, reduced, onReady }: {
   const car = useRef<T.Group>(null)
   const boot=useBoot()
   const entering=useRef(0)
+  useEffect(()=>{onReady(false)},[compact])
   const invalidate = useThree(state => state.invalidate)
   useEffect(() => {
     const draw = () => invalidate()

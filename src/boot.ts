@@ -13,6 +13,7 @@ Cache.enabled=true
 function progress(){update({progress:Math.max(state.progress,Math.min(.99,loaded/total)*.78+(fontsReady?.08:0)+(imagesReady?.04:0)+(modelReady?.10:0))});if(modelReady&&fontsReady&&imagesReady)open()}
 function open(){if(state.released)return;const remaining=sceneConfig.loader.minimumMs-(performance.now()-state.start);if(remaining>0){setTimeout(open,remaining);return}clearTimeout(timer);performance.mark('rr:first-meaningful');update({released:true,progress:modelReady&&fontsReady&&imagesReady?1:state.progress,openedAt:performance.now()-state.start});document.documentElement.classList.add('rr-revealed');document.documentElement.classList.remove('rr-loading');setTimeout(()=>{update({finished:true});if(document.activeElement===document.body){document.body.tabIndex=-1;document.body.focus({preventScroll:true})}},matchMedia('(prefers-reduced-motion:reduce)').matches?180:sceneConfig.loader.exitMs)}
 export function heroFrameReady(){modelReady=true;progress()}
+export function heroLoadFailed(){update({error:true});window.dispatchEvent(new Event('rr:hero-load-failed'));open()}
 export function startBoot(compact:boolean){
  if(started)return;started=true;state.start=0;document.documentElement.classList.add('rr-loading')
  timer=setTimeout(()=>{update({timedOut:true});open()},Math.max(0,sceneConfig.loader.timeoutMs-performance.now()))
