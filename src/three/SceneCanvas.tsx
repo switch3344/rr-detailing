@@ -126,7 +126,7 @@ function TransmissionBackdrop() {
   </mesh>
 }
 
-function StudioLight({ compact, car }: { compact: boolean; car: boolean }) {
+export function StudioLight({ compact, car }: { compact: boolean; car: boolean }) {
   if (car) return <>
     <ambientLight intensity={carConfig.lighting.ambient} />
     <directionalLight position={[-3,5,4]} intensity={carConfig.lighting.key} color="#f1f3f6" />
@@ -156,7 +156,7 @@ function StudioLight({ compact, car }: { compact: boolean; car: boolean }) {
   </>
 }
 
-function StudioFloor() {
+export function StudioFloor() {
   const fade = useMemo(() => {
     const size = 64
     const pixels = new Uint8Array(size * size * 4)

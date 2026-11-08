@@ -60,7 +60,7 @@ function FileModel({ src, children }: { src: string; children: (model: T.Group) 
     })
     if (/\/(porsche-)?gt3rs-/.test(src)) {
       styleGT3RS(clone,gl)
-      if(src.includes('/porsche-'))poseWheels(clone)
+      if(src.includes('/porsche-')&&!(import.meta.env.DEV&&new URLSearchParams(location.search).get('experiment')==='rest'))poseWheels(clone)
     } else if (src.includes('/porsche-roxy-')) {
       styleRoxy(clone,gl);poseWheels(clone)
     } else if (/\/porsche-(studio|roof|wheels)-/.test(src)) {
