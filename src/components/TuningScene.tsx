@@ -1,7 +1,7 @@
 import { lazy,Suspense,useEffect,useRef,useState } from 'react'
 import { content } from '../content'
 import type { StageKind } from '../three/SceneCanvas'
-import visual from '../three/car-config.json'
+import visual from '../three/car.config'
 const SceneCanvas=lazy(()=>import('../three/SceneCanvas'))
 
 export function TuningScene({nearby,reduced,compact}:{nearby:StageKind[];reduced:boolean;compact:boolean}) {

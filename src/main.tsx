@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 import './fonts.css'
 import './styles.css'
 import App from './App'
-import visual from './three/car-config.json'
+import visual from './three/car.config'
 
 for(const [name,value] of Object.entries(visual.site.css))document.documentElement.style.setProperty(name,String(value))
 

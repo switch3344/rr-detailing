@@ -1,5 +1,5 @@
 import * as T from 'three'
-import config from './car-config.json'
+import config from './car.config'
 
 type Finish = { name: string; color: string; metalness: number; roughness: number; clearcoat?: number;
   clearcoatRoughness?: number; sheen?: number; anisotropy?: number; envMapIntensity?: number;
