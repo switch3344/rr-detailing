@@ -10,6 +10,7 @@ import type { Trigger } from './ExplodableModel'
 import { makeCar, makeEngine, makeBrake } from './models'
 import carConfig from './car.config'
 import { auditEvent, renderAudit, sceneStats } from './diagnostics'
+import {useBoot} from '../boot'
 
 export type StageKind = SceneKind | 'hero'
 export type SceneCanvasProps = {
@@ -28,7 +29,6 @@ export type SceneCanvasProps = {
 }
 
 const carSource = (compact: boolean) => modelPath(compact ? content.hero.model : content.hero.detailModel)
-useGLTF.preload(carSource(matchMedia('(max-width: 760px), (hover: none), (pointer: coarse)').matches), import.meta.env.BASE_URL + 'decoders/draco/')
 const aim: Record<StageKind, { eye: XYZ; target: XYZ; span: number; minWidth: number }> = {
   hero: { eye: [-5.5, 2.02, 8.5], target: [0, 0.55, 0], span: 2.63, minWidth: 4.72 },
   body: { eye: [-5.5, 3.45, 7.8], target: [0, 0.83, 0], span: 3.96, minWidth: 5.35 },
@@ -180,10 +180,9 @@ export function StudioFloor() {
 }
 
 function Ready({ onReady }: { onReady: (ready: boolean) => void }) {
-  useEffect(() => {
-    onReady(true)
-    return () => onReady(false)
-  }, [onReady])
+  const count=useRef(0),sent=useRef(false),invalidate=useThree(state=>state.invalidate)
+  const callback=useRef(onReady);callback.current=onReady
+  useFrame(()=>{if(sent.current)return;if(++count.current>=3){sent.current=true;callback.current(true)}else invalidate()})
   return null
 }
 
@@ -221,17 +220,23 @@ function HeroCar({ compact, progress, reduced, onReady }: {
   compact: boolean; progress?: MutableRefObject<number>; reduced: boolean; onReady: (ready: boolean) => void
 }) {
   const car = useRef<T.Group>(null)
+  const boot=useBoot()
+  const entering=useRef(0)
   const invalidate = useThree(state => state.invalidate)
   useEffect(() => {
     const draw = () => invalidate()
     window.addEventListener('rr:hero', draw)
     return () => window.removeEventListener('rr:hero', draw)
   }, [invalidate])
-  useFrame(() => {
+  useFrame((_,delta) => {
     if (!car.current) return
     const p = reduced ? 0 : progress?.current ?? 0
-    car.current.position.x = T.MathUtils.lerp(carConfig.pose.startX,carConfig.pose.endX,p)
+    entering.current=reduced?1:boot.released?Math.min(1,entering.current+Math.min(delta,.05)/.85):0
+    const offset=1-T.MathUtils.smoothstep(entering.current,0,1)
+    car.current.position.x = T.MathUtils.lerp(carConfig.pose.startX,carConfig.pose.endX,p)+offset*.2
+    car.current.position.y=-offset*.035
     car.current.rotation.y = T.MathUtils.degToRad(carConfig.pose.carYaw + carConfig.pose.scrollYaw * p)
+    if(boot.released&&entering.current<1)invalidate()
   })
   return <group ref={car} name="RRHeroCar">
     <pointLight position={carConfig.lighting.cabin.position as XYZ} intensity={carConfig.lighting.cabin.intensity}
@@ -270,7 +275,7 @@ function StageContents({ kind, step = 0, reduced, compact, trigger = 'hover', on
     {kind === 'brake' && content.tuning.items.map((_,index)=><ShowroomObject key={index} index={index}
       active={index===tuningIndex} open={open} reduced={reduced} portal={portal} onReady={onReady} onToggle={toggle} />)}
     {isBody && <>
-      <ExplodableModel src={modelPath(content.services.scenes[0].model)}
+      <ExplodableModel src={carSource(compact)}
         fallback={isBody ? makeCar : makeBrake} parts={isBody ? bodyParts : brakeParts}
         open={open} reduced={reduced} translucent={isBody} trigger={trigger}
         onToggle={toggle} onReady={onReady} portal={portal}

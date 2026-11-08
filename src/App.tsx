@@ -5,7 +5,9 @@ import { ActionLink, Brand, Icon } from './components/ui'
 import { HeroVisual, ServiceScene, useNearbyStages } from './components/Stage'
 import { ContactFooter } from './components/Footer'
 import { TuningScene } from './components/TuningScene'
-import visual from './three/car-config.json'
+import visual from './three/car.config'
+import {startBoot,useBoot} from './boot'
+import {Preloader} from './components/Preloader'
 
 const mobileQuery = '(max-width: 760px), (hover: none), (pointer: coarse)'
 
@@ -95,8 +97,10 @@ function Header({ showContact }: { showContact: boolean }) {
 export default function App() {
   const reduced = useMedia('(prefers-reduced-motion: reduce)')
   const compact = useMedia(mobileQuery)
+  const boot=useBoot()
+  useEffect(()=>startBoot(compact),[compact])
   const { hero, contact, progress, position } = usePagePosition(reduced)
-  const nearby = useNearbyStages()
+  const nearby = useNearbyStages(boot.released)
   const services = content.services
   useLayoutEffect(() => {
     if (location.hash.length > 1) {
@@ -108,7 +112,7 @@ export default function App() {
     }
   }, [])
 
-  return <>
+  return <><Preloader/><div className="site-shell" inert={!boot.released} aria-hidden={!boot.released}>
     <div id="top" />
     <a className="skip-link" href="#main">{content.ui.skip}</a>
     <Header showContact={position === 'hero'} />
@@ -131,5 +135,5 @@ export default function App() {
     </main>
     <ContactFooter sectionRef={contact} reduced={reduced} />
     {position === 'content' && <div className="floating-contact"><ActionLink /></div>}
-  </>
+  </div></>
 }

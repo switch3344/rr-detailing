@@ -5,11 +5,13 @@ import type { Part, Scene, SceneKind } from '../content'
 import type { StageKind } from '../three/SceneCanvas'
 import { ModelDiagram } from './ModelDiagram'
 import { Icon } from './ui'
+import {useBoot,heroFrameReady} from '../boot'
+import {sceneConfig} from '../three/scene.config'
 
 const loadScene = () => import('../three/SceneCanvas')
 const SceneCanvas = lazy(loadScene)
 
-export function useNearbyStages() {
+export function useNearbyStages(released=true) {
   const [nearby, setNearby] = useState<StageKind[]>([])
   useEffect(() => {
     const stages = Array.from(document.querySelectorAll<HTMLElement>('[data-stage]'))
@@ -17,10 +19,10 @@ export function useNearbyStages() {
     function update() {
       frame = 0
       const height = window.innerHeight
-      const lead = Math.min(height * 0.54, 540)
+      const lead = height*sceneConfig.proximity.screens
       const next = stages.flatMap(stage => {
         const { top, bottom } = stage.getBoundingClientRect()
-        return top < height + lead && bottom > -lead * 0.65 ? [stage.dataset.stage as StageKind] : []
+        return (released||stage.dataset.stage==='hero')&&top < height + lead && bottom > -lead * 0.65 ? [stage.dataset.stage as StageKind] : []
       })
       setNearby(previous => previous.length === next.length && previous.every((stage, i) => stage === next[i])
         ? previous : next)
@@ -37,7 +39,7 @@ export function useNearbyStages() {
       window.removeEventListener('scroll', schedule)
       window.removeEventListener('resize', schedule)
     }
-  }, [])
+  }, [released])
   return nearby
 }
 
@@ -52,12 +54,14 @@ export function HeroVisual({ nearby, reduced, compact, progress }:
   Display & { progress: MutableRefObject<number> }) {
   const [ready, setReady] = useState(false)
   const [unavailable, setUnavailable] = useState(false)
+  const boot=useBoot()
   const visited = useVisited(nearby.includes('hero'))
   return <div className="hero-visual" data-stage="hero" role="img" aria-label={content.hero.carAlt}>
-    {unavailable && <ModelDiagram kind="hero" expanded={false} />}
-    {visited && !unavailable && <div className={'stage-canvas' + (ready ? ' stage-canvas-ready' : '')}>
+    {(unavailable||!ready&&boot.released) && <ModelDiagram kind="hero" expanded={false} />}
+    {(unavailable||boot.error)&&boot.released&&<button className="model-retry" onClick={()=>location.reload()}>Повторить загрузку 3D</button>}
+    {visited && boot.buffered && !unavailable && <div className={'stage-canvas' + (ready ? ' stage-canvas-ready' : '')}>
       <Suspense fallback={null}>
-        <SceneCanvas kind="hero" reduced={reduced} compact={compact} onReady={setReady}
+        <SceneCanvas kind="hero" reduced={reduced} compact={compact} onReady={value=>{setReady(value);if(value)heroFrameReady()}}
           onUnavailable={setUnavailable} heroProgress={progress} />
       </Suspense>
     </div>}
@@ -89,7 +93,7 @@ export function ServiceScene({ scene, nearby, reduced, compact }: Display & { sc
       <div className="scene-intro"><h3>{scene.title}</h3><p>{scene.text}</p></div>
       <div className="model-stage">
         <div className="model-art" data-stage={kind} aria-label={scene.title}>
-          {unavailable && <ModelDiagram kind={kind} expanded={step > 0} />}
+          {(unavailable||visited&&!ready) && <ModelDiagram kind={kind} expanded={step > 0} />}
           {visited && !unavailable && <div className={'stage-canvas' + (ready ? ' stage-canvas-ready' : '')}>
             <Suspense fallback={null}>
               <SceneCanvas kind={kind} step={step} onStep={setStep} onPart={setSelected} leader={leader}
