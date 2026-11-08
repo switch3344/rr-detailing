@@ -362,3 +362,17 @@ p, dd { color: var(--muted); }
 .footer-credits {text-align:center;margin:10px auto 0;max-width:760px}
 .footer-credits summary {margin-inline:auto}
 .footer-credits ul {list-style:none;padding:0;line-height:1.7}
+
+/* Studio atmosphere — typography and section order are retained. */
+
+.site-shell{background:var(--ink)}
+.hero{background:#07090d}
+.hero::before{background:radial-gradient(ellipse 54% 48% at 68% 59%,#20395666,transparent 78%);opacity:.7}
+.hero::after{background-image:var(--grain);opacity:.025;box-shadow:inset 0 0 120px 35px #07090d80}
+.studio-background i{opacity:.07}.studio-background i:nth-child(2){opacity:.05}.studio-background i:nth-child(3){opacity:.05}.studio-background span{display:none}
+
+
+.service-scene{position:relative;isolation:isolate;background:#0b0f15;border-top:1px solid #ffffff05}
+.service-scene::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse 55% 68% at 75% 47%,#233c571f,transparent 78%);opacity:.8}
+.service-scene-engine{background:#07090d}.service-scene-engine::before{background:radial-gradient(ellipse 45% 62% at 25% 50%,#33465a24,transparent 78%)}
+.tuning-showroom{background:#0a0d12}.tuning-showroom::before{background:radial-gradient(ellipse 52% 60% at 73% 40%,#45403a20,transparent 80%)}
