@@ -1,0 +1,753 @@
+{
+  "site": {
+    "css": {
+      "--ink": "#0b0d10",
+      "--tone": "#12161b",
+      "--surface": "#171c23",
+      "--text": "#e8eaed",
+      "--muted": "#a2acb8",
+      "--accent": "#6999f5",
+      "--head": "'Unbounded Variable', Arial, sans-serif",
+      "--body": "'Onest Variable', Arial, sans-serif",
+      "--heading-weight": "500",
+      "--strong": "600",
+      "--hero-size": "clamp(48px, 8.2vw, 142px)",
+      "--hero-mobile-size": "clamp(29px, 8.6vw, 56px)",
+      "--hero-leading": "1.04",
+      "--hero-reveal": "620ms",
+      "--footer-radius": "28px",
+      "--footer-blue": "#173e80",
+      "--footer-deep": "#102a58",
+      "--footer-light": "#527ee4",
+      "--footer-enter": "750ms",
+      "--studio-halo": "#34465e",
+      "--studio-floor": "#2d3641",
+      "--noise-opacity": "0.025"
+    },
+    "tuning": {
+      "transitionMs": 340,
+      "yaw": -0.2,
+      "scale": 1,
+      "minWidth": 3.3,
+      "span": 3.1,
+      "assetSpan": 2.15,
+      "metal": "#9aa5b5",
+      "dark": "#161c25",
+      "accent": "#4b79c5",
+      "heatWarm": "#9b8b6e",
+      "heatCool": "#75889f",
+      "roughness": 0.29
+    },
+    "revealDelayMs": 90
+  },
+  "camera": {
+    "fov": 32,
+    "eye": [
+      -6.8,
+      2.45,
+      9.8
+    ],
+    "target": [
+      0,
+      0.64,
+      0
+    ],
+    "near": 0.1,
+    "far": 50,
+    "padding": 1.02,
+    "mobilePadding": 1.03,
+    "length": 4.95,
+    "width": 2.2,
+    "height": 1.45,
+    "widthFraction": 0.84,
+    "mobileWidthFraction": 0.98,
+    "centerX": 0.66,
+    "mobileCenterX": 0.5,
+    "centerY": 0.54,
+    "mobileCenterY": 0.6,
+    "heightFraction": 0.88
+  },
+  "pose": {
+    "carYaw": 15,
+    "scrollYaw": 13.75,
+    "startX": 0.22,
+    "endX": -0.37,
+    "steerAngle": 18,
+    "kingpinInboard": 0.055,
+    "kingpinCaster": 0.025,
+    "wheelSpin": 0
+  },
+  "glass": {
+    "transmission": 0.985,
+    "ior": 1.5,
+    "roughness": 0.07,
+    "thickness": 0.006,
+    "attenuationColor": "#fafcff",
+    "attenuationDistance": 25,
+    "envMapIntensity": 0.06,
+    "specularIntensity": 0.3,
+    "clearcoat": 0,
+    "renderOrder": 20,
+    "tintAmount": 0,
+    "tintMaxOpacity": 0.7,
+    "lowCostOpacity": 0.13,
+    "lowCostRoughness": 0.08,
+    "lowCostReflection": 0.24
+  },
+  "materials": {
+    "paint": {
+      "name": "RR Deep Blue Metallic",
+      "color": "#223e63",
+      "metalness": 0.76,
+      "roughness": 0.29,
+      "clearcoat": 1,
+      "clearcoatRoughness": 0.055,
+      "sheen": 0.025,
+      "envMapIntensity": 0.85,
+      "normalScale": 0.018,
+      "textureRepeat": 110
+    },
+    "glass": {
+      "name": "RR Clear Glass",
+      "color": "#fcfdff",
+      "metalness": 0,
+      "roughness": 0.07,
+      "clearcoat": 0,
+      "clearcoatRoughness": 0.04,
+      "transmission": 0.985
+    },
+    "lens": {
+      "name": "RR Optical Glass",
+      "color": "#ffffff",
+      "metalness": 0,
+      "roughness": 0.018,
+      "clearcoat": 0.05,
+      "transmission": 0.98,
+      "thickness": 0.002,
+      "envMapIntensity": 0.45
+    },
+    "rim": {
+      "name": "RR Forged Wheel",
+      "color": "#77818f",
+      "metalness": 1,
+      "roughness": 0.32,
+      "anisotropy": 0.28,
+      "envMapIntensity": 0.72
+    },
+    "rubber": {
+      "name": "RR Tire Rubber",
+      "color": "#24262a",
+      "metalness": 0,
+      "roughness": 0.76,
+      "sheen": 0.12,
+      "envMapIntensity": 0.35,
+      "normalScale": 0.12,
+      "textureRepeat": 22
+    },
+    "caliper": {
+      "name": "RR Yellow Caliper",
+      "color": "#e9bb31",
+      "metalness": 0.15,
+      "roughness": 0.24,
+      "clearcoat": 0.9,
+      "clearcoatRoughness": 0.06
+    },
+    "intake": {
+      "name": "RR Intake Matte",
+      "color": "#13171d",
+      "metalness": 0.05,
+      "roughness": 0.84,
+      "envMapIntensity": 0.3
+    },
+    "leather": {
+      "name": "RR Interior Leather",
+      "color": "#2b3037",
+      "metalness": 0,
+      "roughness": 0.68,
+      "sheen": 0.18,
+      "envMapIntensity": 0.5,
+      "normalScale": 0.2,
+      "textureRepeat": 8
+    },
+    "alcantara": {
+      "name": "RR Interior Alcantara",
+      "color": "#1b2026",
+      "metalness": 0,
+      "roughness": 0.94,
+      "sheen": 0.22,
+      "envMapIntensity": 0.25
+    },
+    "screen": {
+      "name": "RR Interior Display",
+      "color": "#111922",
+      "metalness": 0.2,
+      "roughness": 0.13,
+      "clearcoat": 0.6,
+      "emissive": "#304457",
+      "emissiveIntensity": 0.22
+    },
+    "stitch": {
+      "name": "RR Interior Stitch",
+      "color": "#89909b",
+      "metalness": 0,
+      "roughness": 0.8
+    },
+    "metal": {
+      "name": "RR Interior Metal",
+      "color": "#626b77",
+      "metalness": 0.85,
+      "roughness": 0.4
+    },
+    "lamp": {
+      "name": "RR White LED",
+      "color": "#dce8f2",
+      "metalness": 0.1,
+      "roughness": 0.2,
+      "emissive": "#d0e3f7",
+      "emissiveIntensity": 0.85
+    },
+    "housing": {
+      "name": "RR Headlight Housing",
+      "color": "#151a21",
+      "metalness": 0.25,
+      "roughness": 0.4
+    },
+    "reflector": {
+      "name": "RR Headlight Reflector",
+      "color": "#7b828c",
+      "metalness": 1,
+      "roughness": 0.22,
+      "envMapIntensity": 0.7
+    },
+    "dashboard": {
+      "name": "RR Dashboard Upper",
+      "color": "#191d24",
+      "metalness": 0,
+      "roughness": 0.9,
+      "sheen": 0.08,
+      "envMapIntensity": 0.3
+    }
+  },
+  "lighting": {
+    "environmentIntensity": 0.8,
+    "resolution": 256,
+    "mobileResolution": 128,
+    "ambient": 0.5,
+    "key": 1,
+    "rim": 1.1,
+    "exposure": 1.04,
+    "strips": [
+      {
+        "position": [
+          -1.4,
+          4.8,
+          1.8
+        ],
+        "scale": [
+          7,
+          0.17,
+          1
+        ],
+        "intensity": 3,
+        "color": "#f0f3f6"
+      },
+      {
+        "position": [
+          1,
+          3.8,
+          -2.5
+        ],
+        "scale": [
+          6.5,
+          0.2,
+          1
+        ],
+        "intensity": 2.8,
+        "color": "#dce7f1"
+      },
+      {
+        "position": [
+          1.5,
+          1.8,
+          4
+        ],
+        "scale": [
+          0.22,
+          3,
+          1
+        ],
+        "intensity": 2.1,
+        "color": "#e4ebf4"
+      },
+      {
+        "position": [
+          -0.4,
+          0.55,
+          3.5
+        ],
+        "scale": [
+          5.8,
+          0.12,
+          1
+        ],
+        "intensity": 1.4,
+        "color": "#d5e1ef"
+      },
+      {
+        "position": [
+          -3.2,
+          1.5,
+          -3
+        ],
+        "scale": [
+          0.35,
+          2.5,
+          1
+        ],
+        "intensity": 1.7,
+        "color": "#b3c8e5"
+      },
+      {
+        "position": [
+          0,
+          2.2,
+          4
+        ],
+        "scale": [
+          6,
+          0.16,
+          1
+        ],
+        "intensity": 3.8,
+        "color": "#e1e8f2"
+      }
+    ],
+    "cabin": {
+      "position": [
+        0,
+        1.12,
+        0
+      ],
+      "color": "#dbe4ef",
+      "intensity": 0.1,
+      "distance": 1.4,
+      "decay": 2
+    },
+    "background": "#263241"
+  },
+  "floor": {
+    "height": -0.018,
+    "shadowOpacity": 0.62,
+    "shadowBlur": 2.8,
+    "shadowResolution": 256,
+    "reflectionOpacity": 0.17,
+    "reflectionStrength": 1.25,
+    "reflectionResolution": 128,
+    "reflectionBlur": [
+      65,
+      35
+    ],
+    "coreRadius": [
+      0.23,
+      0.16
+    ],
+    "coreOpacity": 0.48
+  },
+  "detail": {
+    "textureSize": 128,
+    "normalAmplitude": 0.06,
+    "tireText": "PERFORMANCE  ZR20",
+    "tireTextSize": 0.028,
+    "tireTextRadius": 0.263,
+    "letterRaise": 0.001,
+    "caliperText": "PORSCHE",
+    "caliperTextSize": 0.022,
+    "caliperCapRadius": 0.013,
+    "archRoughness": 0.93
+  },
+  "geometry": {
+    "desktopBudget": 500000,
+    "mobileBudget": 120000,
+    "desktopSegments": 20,
+    "mobileSegments": 12,
+    "bevelSegments": 3,
+    "mobileBevelSegments": 2,
+    "bevel": 0.018,
+    "seamRadius": 0.0013,
+    "ringRadius": 0.149,
+    "ringThickness": 0.013,
+    "columnRadius": 0.023,
+    "aoSamples": 16,
+    "headlightDesktopBudget": 42000,
+    "headlightMobileBudget": 11000
+  },
+  "interior": {
+    "dashboard": {
+      "position": [
+        -0.69,
+        0.765,
+        0
+      ],
+      "size": [
+        0.48,
+        0.17,
+        1.39
+      ]
+    },
+    "cluster": {
+      "position": [
+        -0.515,
+        0.84,
+        0.415
+      ],
+      "size": [
+        0.14,
+        0.13,
+        0.34
+      ]
+    },
+    "console": {
+      "position": [
+        -0.06,
+        0.52,
+        0
+      ],
+      "size": [
+        1.05,
+        0.23,
+        0.21
+      ]
+    },
+    "screen": {
+      "position": [
+        -0.455,
+        0.772,
+        -0.035
+      ],
+      "size": [
+        0.014,
+        0.105,
+        0.29
+      ]
+    },
+    "wheel": {
+      "position": [
+        -0.315,
+        0.785,
+        0.425
+      ],
+      "tilt": 18
+    },
+    "frontSeat": {
+      "x": 0.28,
+      "z": 0.415,
+      "baseY": 0.47,
+      "baseSize": [
+        0.55,
+        0.16,
+        0.43
+      ],
+      "profile": [
+        [
+          0.52,
+          0.46,
+          0.235
+        ],
+        [
+          0.66,
+          0.49,
+          0.25
+        ],
+        [
+          0.86,
+          0.56,
+          0.21
+        ],
+        [
+          1.035,
+          0.62,
+          0.175
+        ]
+      ],
+      "backDepth": 0.09,
+      "headrest": [
+        0.64,
+        1.1
+      ],
+      "headrestSize": [
+        0.115,
+        0.165,
+        0.27
+      ]
+    },
+    "rearSeat": {
+      "x": 1.045,
+      "z": 0.37,
+      "baseY": 0.5,
+      "baseSize": [
+        0.36,
+        0.12,
+        0.35
+      ],
+      "back": [
+        1.28,
+        0.745
+      ],
+      "backSize": [
+        0.11,
+        0.42,
+        0.35
+      ],
+      "headrestY": 0.975,
+      "headrestSize": [
+        0.09,
+        0.1,
+        0.24
+      ]
+    },
+    "door": {
+      "position": [
+        0.05,
+        0.635,
+        0.705
+      ],
+      "size": [
+        1.13,
+        0.39,
+        0.055
+      ],
+      "armrestY": 0.66,
+      "handleX": [
+        -0.28,
+        -0.1
+      ]
+    },
+    "roof": {
+      "position": [
+        0.37,
+        1.247,
+        0
+      ],
+      "size": [
+        1.12,
+        0.028,
+        1.1
+      ]
+    },
+    "floor": {
+      "position": [
+        0.28,
+        0.32,
+        0
+      ],
+      "size": [
+        2.03,
+        0.035,
+        1.32
+      ]
+    },
+    "vents": {
+      "xs": [
+        -0.442,
+        -0.43
+      ],
+      "y": 0.8,
+      "zs": [
+        -0.56,
+        -0.2,
+        0.15,
+        0.6
+      ],
+      "size": [
+        0.018,
+        0.055,
+        0.105
+      ],
+      "slatSpacing": 0.014
+    },
+    "instrumentRadius": 0.038,
+    "instrumentSpacing": 0.075,
+    "pedalPosition": [
+      -0.75,
+      0.42,
+      0.39
+    ],
+    "pedalSize": [
+      0.025,
+      0.12,
+      0.06
+    ],
+    "pedalGap": 0.105
+  },
+  "performance": {
+    "desktopDpr": 1.75,
+    "mobileDpr": 1.25,
+    "weakDesktopDpr": 1.25,
+    "weakMobileDpr": 1,
+    "targetFps": 42,
+    "sampleFrames": 40,
+    "idleGap": 0.12,
+    "minFrameGap": 0.005
+  },
+  "interiorRefinement": {
+    "dashboardUpper": [
+      [
+        -0.7,
+        -0.68,
+        0.744,
+        0.16,
+        0.045
+      ],
+      [
+        -0.6,
+        -0.68,
+        0.758,
+        0.21,
+        0.055
+      ],
+      [
+        -0.35,
+        -0.675,
+        0.766,
+        0.225,
+        0.06
+      ],
+      [
+        0,
+        -0.68,
+        0.765,
+        0.23,
+        0.064
+      ],
+      [
+        0.3,
+        -0.67,
+        0.775,
+        0.22,
+        0.065
+      ],
+      [
+        0.55,
+        -0.66,
+        0.758,
+        0.19,
+        0.055
+      ],
+      [
+        0.7,
+        -0.65,
+        0.74,
+        0.145,
+        0.04
+      ]
+    ],
+    "dashboardLower": [
+      [
+        -0.68,
+        -0.65,
+        0.675,
+        0.15,
+        0.045
+      ],
+      [
+        -0.45,
+        -0.65,
+        0.68,
+        0.18,
+        0.06
+      ],
+      [
+        0,
+        -0.65,
+        0.68,
+        0.19,
+        0.06
+      ],
+      [
+        0.45,
+        -0.65,
+        0.68,
+        0.18,
+        0.06
+      ],
+      [
+        0.68,
+        -0.64,
+        0.67,
+        0.14,
+        0.035
+      ]
+    ],
+    "console": [
+      [
+        -0.58,
+        0,
+        0.5,
+        0.09,
+        0.08
+      ],
+      [
+        -0.44,
+        0,
+        0.53,
+        0.105,
+        0.085
+      ],
+      [
+        -0.14,
+        0,
+        0.53,
+        0.11,
+        0.09
+      ],
+      [
+        0.18,
+        0,
+        0.49,
+        0.105,
+        0.085
+      ],
+      [
+        0.48,
+        0,
+        0.46,
+        0.08,
+        0.065
+      ]
+    ],
+    "seatProfile": [
+      [
+        0.515,
+        0.45,
+        0.215
+      ],
+      [
+        0.6,
+        0.47,
+        0.25
+      ],
+      [
+        0.72,
+        0.51,
+        0.258
+      ],
+      [
+        0.86,
+        0.56,
+        0.218
+      ],
+      [
+        0.97,
+        0.6,
+        0.185
+      ],
+      [
+        1.04,
+        0.63,
+        0.17
+      ]
+    ],
+    "bolsterRadius": 0.038,
+    "wheelFlatBottom": -0.81
+  }
+}

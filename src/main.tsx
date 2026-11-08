@@ -1,0 +1,14 @@
+import { createRoot } from 'react-dom/client'
+import './fonts.css'
+import './styles.css'
+import App from './App'
+import visual from './three/car-config.json'
+
+for(const [name,value] of Object.entries(visual.site.css))document.documentElement.style.setProperty(name,String(value))
+
+createRoot(document.getElementById('root')!).render(<App />)
+if(import.meta.env.DEV && new URLSearchParams(location.search).get('qa')==='scroll') {
+  const script=document.createElement('script')
+  script.src='/artifacts/stage4/scroll-driver.js'
+  document.body.append(script)
+}
