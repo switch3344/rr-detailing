@@ -13,12 +13,14 @@ export function styleGT3RS(model:T.Group,gl:T.WebGLRenderer) {
       if(!(source instanceof T.MeshStandardMaterial))return source
       const glass=/^(glass|glasswindows)|_percent_alpha/i.test(source.name)&&!source.name.includes('label')
       const tire=source.name.startsWith('mic_black')
+      // Scope the finish to the supplied wheel meshes; rotors and calipers keep their materials.
+      const rim=/^wheel_(lf|lr)\.child/.test(sourceNode)&&/^(Material\.(040|047|054|057)|metal_detail_rim|metal_detail_5|black2\.002)$/.test(source.name)
       const interior=/seat_|steeringwheel/.test(sourceNode)||/interior_|alcantara|leather|fabric/i.test(source.name)
       const black=/^(black|dinghyblack)|carbon/i.test(source.name)
       const caliper=/hub_/.test(sourceNode)&&/SECONDARY/.test(source.name)
       const exhaust=object.userData.role==='exhaust'
       const paint=!interior&&!black&&!glass&&!tire&&(/^vehicle_generic_smallspecmap \[(PRIMARY|SECONDARY)\]/.test(source.name)||paintNode&&/^Material\./.test(source.name))
-      const key=source.uuid+':'+[glass,tire,interior,caliper,paint,exhaust].join(',')
+      const key=source.uuid+':'+[glass,tire,interior,caliper,paint,exhaust,rim].join(',')
       if(finishes.has(key))return finishes.get(key)!
       let material:T.MeshStandardMaterial=source.clone()
       if(paint&&!(material instanceof T.MeshPhysicalMaterial)){
@@ -37,6 +39,7 @@ export function styleGT3RS(model:T.Group,gl:T.WebGLRenderer) {
       if(/chrome|metal037/.test(source.name)){material.color.set('#a3aab3');material.metalness=.9;material.roughness=.3}
       if(glass){material.map=null;material.color.set('#ecf1f5');material.metalness=0;material.roughness=.075;material.envMapIntensity=.3;material.side=T.DoubleSide;material.userData.rrKeepOpaque=true}
       if(tire){material.color.set('#171b20');material.metalness=0;material.roughness=.83;material.envMapIntensity=.25}
+      if(rim){material.map=null;material.color.set('#080a0d');material.metalness=.65;material.roughness=.38;material.envMapIntensity=.42}
       if(exhaust){material.map=null;material.color.set(black?'#292f36':'#727c89');material.metalness=.85;material.roughness=.3;material.envMapIntensity=.9}
       if(material instanceof T.MeshPhysicalMaterial&&paint){material.clearcoat=.85;material.clearcoatRoughness=.06}
       for(const value of Object.values(material))if(value instanceof T.Texture)value.anisotropy=anisotropy
