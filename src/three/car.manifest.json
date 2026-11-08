@@ -1,0 +1,20 @@
+{
+ "asset":"Porsche 992 GT3 RS — user supplied / VTX metadata",
+ "models":{"desktop":"porsche-gt3rs-desktop.glb","mobile":"porsche-gt3rs-mobile.glb"},
+ "roles":{
+  "body":["body_shell"],"glass":["glass"],"doors":["door_FL","door_FR"],
+  "wheels":["wheel_front_L","wheel_front_R","wheel_rear_L","wheel_rear_R"],
+  "steering":["Steering_front_L","Steering_front_R"],"lights":["headlights"],"wing":["rear_spoiler"],"interior":["chassis"]
+ },
+ "patterns":{
+  "paintNode":"^(bodyshell|bumper_f|door_|extra_)",
+  "paintMaterial":"^vehicle_generic_smallspecmap \\[(PRIMARY|SECONDARY)\\]|^Material\\.",
+  "interiorMaterial":"interior_|alcantara|leather|fabric|dash|plastic_skin|grooved_plastic",
+  "utilityTexture":"vehicle_genericmud_car|blank_normal|flat[_-]nm|_nrml|_nrm|_normal|smallspecmap",
+  "tire":"^mic_black",
+  "rimNode":"^wheel_(lf|lr)\\.child",
+  "rimMaterial":"^(Material\\.(040|047|054|057)|metal_detail_rim|metal_detail_5|black2\\.002|Material\\.(055|058))$"
+ },
+ "hiddenGlassInner":["windscreen.001","windscreen_r.001","window_lf.002","window_rf.002","window_lr.001","window_rr.001"],
+ "requirements":{"bodyTriangles":[200000,500000],"separateNodes":["body","glass","four wheels with tyres/calipers","lights","mirrors","wing","interior"],"textures":"PBR with valid UV and no baked studio lighting","licence":"commercial use with attribution explicitly allowed"}
+}

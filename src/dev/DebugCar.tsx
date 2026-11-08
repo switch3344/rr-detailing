@@ -7,6 +7,7 @@ import { StudioLight, StudioFloor } from '../three/SceneCanvas'
 import { makeCar } from '../three/models'
 import { content } from '../content'
 import { toCreasedNormals } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
+import manifest from '../three/car.manifest.json'
 
 const query=new URLSearchParams(location.search)
 const views:Record<string,{eye:[number,number,number];target:[number,number,number];span:number}>={
@@ -44,13 +45,15 @@ function Inspect({model}:{model:T.Group}){
     for(const value of Object.values(m))if(value instanceof T.Texture)textures.add(value)
    }
   })
-  return {triangles,nodes,materials,duplicates,opposed,degenerate,textures:[...textures].map(t=>({name:t.name,colorSpace:t.colorSpace,repeat:t.repeat.toArray(),anisotropy:t.anisotropy,mipmaps:t.generateMipmaps}))}
+  return {triangles,nodes,groups:Object.entries(manifest.roles).map(([role,names])=>({role,names})),materials,duplicates,opposed,degenerate,textures:[...textures].map(t=>({name:t.name,colorSpace:t.colorSpace,repeat:t.repeat.toArray(),anisotropy:t.anisotropy,mipmaps:t.generateMipmaps}))}
  },[model])
  useEffect(()=>{
   const view=views[query.get('view')||'hero']||views.hero
   camera.position.set(...view.eye);camera.lookAt(...view.target)
   if(camera instanceof T.OrthographicCamera){camera.zoom=Math.min(size.width/(view.span*1.5),size.height/view.span);camera.updateProjectionMatrix()}
   const saved=new Map<T.Mesh,T.Material|T.Material[]>();const made:T.Material[]=[]
+  const helpers:T.BoxHelper[]=[]
+  if(query.has('groups'))Object.values(manifest.roles).flat().forEach((name,index)=>{const object=model.getObjectByName(name);if(object){const helper=new T.BoxHelper(object,new T.Color().setHSL(index*.11,.55,.6));scene.add(helper);helpers.push(helper)}})
   model.traverse(o=>{if(!(o instanceof T.Mesh))return
    if(solo&&!o.name.includes(solo)&&!o.parent?.name.includes(solo))o.visible=false
    if(mode==='normals'||mode==='wireframe'){saved.set(o,o.material);const material=mode==='normals'?new T.MeshNormalMaterial({side:T.DoubleSide}):new T.MeshBasicMaterial({color:'#9ab5d3',wireframe:true});made.push(material);o.material=material}
@@ -59,17 +62,17 @@ function Inspect({model}:{model:T.Group}){
   })
   if(query.get('experiment')==='noEnv')scene.environmentIntensity=0
   window.__carQA={...report,view:query.get('view')||'hero',ready:true,gl:gl.capabilities.maxTextures}
-  return()=>{for(const [o,m]of saved)o.material=m;made.forEach(m=>m.dispose())}
+  return()=>{for(const [o,m]of saved)o.material=m;made.forEach(m=>m.dispose());helpers.forEach(h=>{scene.remove(h);h.dispose()})}
  },[model,camera,size,gl,scene,report,mode,solo])
- useFrame(()=>{if(query.has('groups'))model.traverse(o=>{if(o.type==='Group')o.userData.qaGroup=true})})
  return <primitive object={model}/>
 }
 export default function DebugCar(){
- const src=modelPath(query.get('quality')==='mobile'?content.hero.model:content.hero.detailModel)
+ const src=query.get('experiment')==='weighted'?'/artifacts/normal-test/porsche-gt3rs-weighted.glb':modelPath(query.get('quality')==='mobile'?content.hero.model:content.hero.detailModel)
  return <div style={{height:'100vh',background:'#0b0d10'}}>
   {!query.has('shot')&&<div style={{position:'absolute',zIndex:5,background:'#171c23',padding:12,fontSize:14}}>
    <label>Камера <select value={query.get('view')||'hero'} onChange={e=>{query.set('view',e.target.value);location.search=query.toString()}}>{Object.keys(views).map(v=><option key={v}>{v}</option>)}</select></label>
    <label> Вид <select value={query.get('mode')||'beauty'} onChange={e=>{query.set('mode',e.target.value);location.search=query.toString()}}>{['beauty','normals','wireframe'].map(v=><option key={v}>{v}</option>)}</select></label>
+   <button onClick={()=>{query.has('groups')?query.delete('groups'):query.set('groups','1');location.search=query.toString()}}>Группы</button>
    <form><input name="solo" placeholder="solo: имя узла" defaultValue={query.get('solo')||''}/><button>Показать</button></form>
    <details><summary>Таблица узлов</summary><pre id="node-table" style={{maxHeight:'45vh',overflow:'auto'}} onClick={e=>{e.currentTarget.textContent=JSON.stringify(window.__carQA?.nodes,null,2)}}>Нажмите, чтобы прочитать таблицу</pre></details>
   </div>}

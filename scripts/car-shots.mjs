@@ -10,7 +10,7 @@ try{
  const shots=process.env.RR_VIEWS?.split(',')||['hero','profile','top','wing','wheel','glass','spoiler','normals','wireframe','rest','noNormal','noEnv','mobile']
  for(const name of shots){
   const mode=['normals','wireframe'].includes(name)?name:'beauty'
-  const experiment=['rest','noNormal','noEnv','creased'].includes(name)?name:''
+  const experiment=['rest','noNormal','noEnv','creased','weighted'].includes(name)?name:''
   await page.setViewportSize(name==='mobile'?{width:390,height:844}:{width:1280,height:800})
   await page.goto(`http://127.0.0.1:5188/debug/car?shot=1&view=${['normals','wireframe','rest','noNormal','noEnv','mobile','creased'].includes(name)?'hero':name}&mode=${mode}&experiment=${experiment}&quality=${name==='mobile'?'mobile':'desktop'}`)
   await page.waitForFunction(()=>window.__carQA?.ready,{},{timeout:60000});await page.waitForTimeout(800)

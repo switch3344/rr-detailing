@@ -10,6 +10,7 @@ import { poseWheels, styleCar } from './carStyle'
 import { styleRoxy } from './roxyStyle'
 import { styleGT3RS } from './gt3rsStyle'
 import { auditEvent } from './diagnostics'
+import { rememberRest, restoreRest, restError } from './restPose'
 
 export type Trigger = 'hover' | 'tap' | 'scroll'
 export type ModelSource = { src?: string; fallback: () => T.Group }
@@ -67,6 +68,7 @@ function FileModel({ src, children }: { src: string; children: (model: T.Group) 
       styleCar(clone, gl,matchMedia('(max-width:760px), (hover:none), (pointer:coarse)').matches)
       poseWheels(clone)
     }
+    rememberRest(clone)
     return clone
   }, [scene, src, gl])
   useEffect(()=>()=>{
@@ -250,6 +252,7 @@ function AnimatedParts({
   }), [model, parts])
   const active = enabled && (open ?? (trigger === 'hover' && hover || trigger !== 'scroll' && tap))
   const target = active ? 1 : 0
+  useEffect(()=>{if(import.meta.env.DEV){const w=window as unknown as {__rrModels:Record<string,T.Group>};w.__rrModels??={};w.__rrModels[parts[0]?.nodeName]=model}},[model,parts])
 
   useLayoutEffect(() => {
     skins.current = skinParts(bound, translucent)
@@ -279,6 +282,7 @@ function AnimatedParts({
   }, [active, onPart])
   const isDrawing = useRef(false)
   useModelSpring(target, reduced, p => {
+    model.userData.explodeProgress=p
     if (fit && camera instanceof T.OrthographicCamera && typeof camera.userData.rrBaseZoom === 'number') {
       const zoom = camera.userData.rrBaseZoom * (1 - p * 0.19)
       if (camera.zoom !== zoom) {
@@ -318,6 +322,7 @@ function AnimatedParts({
         }
       }
     }
+    if(p===0){restoreRest(model);model.userData.restError=restError(model)}
   })
 
   function find(event: ThreeEvent<PointerEvent | MouseEvent>) {
