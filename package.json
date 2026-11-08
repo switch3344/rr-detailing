@@ -31,12 +31,16 @@
     "three-stdlib": "^2.36.0"
   },
   "devDependencies": {
+    "@gltf-transform/core": "^4.5.1",
+    "@gltf-transform/extensions": "^4.5.1",
+    "@gltf-transform/functions": "^4.5.1",
     "@tailwindcss/vite": "^4.1.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@types/three": "~0.180.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "draco3dgltf": "^1.5.9",
     "playwright-core": "^1.65.0",
     "tailwindcss": "^4.1.0",
     "tsx": "^4.20.0",

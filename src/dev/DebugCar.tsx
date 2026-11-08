@@ -6,6 +6,7 @@ import { ModelAsset, modelPath } from '../three/ExplodableModel'
 import { StudioLight, StudioFloor } from '../three/SceneCanvas'
 import { makeCar } from '../three/models'
 import { content } from '../content'
+import { toCreasedNormals } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 
 const query=new URLSearchParams(location.search)
 const views:Record<string,{eye:[number,number,number];target:[number,number,number];span:number}>={
@@ -54,6 +55,7 @@ function Inspect({model}:{model:T.Group}){
    if(solo&&!o.name.includes(solo)&&!o.parent?.name.includes(solo))o.visible=false
    if(mode==='normals'||mode==='wireframe'){saved.set(o,o.material);const material=mode==='normals'?new T.MeshNormalMaterial({side:T.DoubleSide}):new T.MeshBasicMaterial({color:'#9ab5d3',wireframe:true});made.push(material);o.material=material}
    if(query.get('experiment')==='noNormal')for(const m of [o.material].flat())if(m instanceof T.MeshStandardMaterial){m.normalMap=null;m.needsUpdate=true}
+   if(query.get('experiment')==='creased'&&/bodyshell|bumper|door_|extra_/.test(o.name))o.geometry=toCreasedNormals(o.geometry.clone(),35*Math.PI/180)
   })
   if(query.get('experiment')==='noEnv')scene.environmentIntensity=0
   window.__carQA={...report,view:query.get('view')||'hero',ready:true,gl:gl.capabilities.maxTextures}
